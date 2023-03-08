@@ -29,14 +29,13 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Rewrite environment variables to application-test.properties
-        run: |
-          echo "spring.datasource.url=jdbc:postgresql://postgres:5432/conference" >> src/main/resources/application-test.properties
-          echo "spring.datasource.username=postgres" >> src/main/resources/application-test.properties
-          echo "spring.datasource.password=postgres" >> src/main/resources/application-test.properties
-
       - name: Build with Maven
         run: mvn package --batch-mode
 
       - name: Test with Maven
+        with:
+          env:
+            SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/conference
+            SPRING_DATASOURCE_USERNAME: postgres
+            SPRING_DATASOURCE_PASSWORD: postgres
         run: mvn test --batch-mode
