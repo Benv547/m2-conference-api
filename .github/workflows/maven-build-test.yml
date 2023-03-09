@@ -35,7 +35,7 @@ jobs:
 
       - name: Test with Maven
         env:
-          SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/conference
+          SPRING_DATASOURCE_URL: jdbc:postgresql://127.0.0.1:5432/conference
           SPRING_DATASOURCE_USERNAME: postgres
-          SPRING_DATASOURCE_PASSWORD: postgres
+          SPRING_DATASOURCE_PASSWORD: password
         run: mvn test --batch-mode
