@@ -15,6 +15,7 @@ public class HelloController {
     }
 
     @GetMapping("/user")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<String> helloUser(Authentication authentication) {
         final String body = "Path: /user | user: " + authentication.getName();
         return ResponseEntity.ok(body);
@@ -33,7 +34,7 @@ public class HelloController {
         return ResponseEntity.ok(body);
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(value = "/admin")
     public ResponseEntity<String> helloAdmin(Authentication authentication) {
         final String body = "Path: /admin | user: " + authentication.getName();
