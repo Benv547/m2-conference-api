@@ -13,10 +13,11 @@ jobs:
         image: postgres:latest
         env:
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
+          POSTGRES_PASSWORD: password
           POSTGRES_DB: conference
         ports:
-          - 5432/tcp
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
       - name: Checkout code
@@ -33,9 +34,8 @@ jobs:
         run: mvn package --batch-mode
 
       - name: Test with Maven
+        env:
+          SPRING_DATASOURCE_URL: jdbc:postgresql://127.0.0.1:5432/conference
+          SPRING_DATASOURCE_USERNAME: postgres
+          SPRING_DATASOURCE_PASSWORD: password
         run: mvn test --batch-mode
-        with:
-          env:
-            SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/conference
-            SPRING_DATASOURCE_USERNAME: postgres
-            SPRING_DATASOURCE_PASSWORD: postgres
