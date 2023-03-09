@@ -18,7 +18,7 @@ WORKDIR /app
 COPY --from=build /usr/src/app/target/*.jar /app/app.jar
 
 # Exposer le port 8080 pour l'application
-EXPOSE 8080
+EXPOSE 3000
 
 # Définir la commande de démarrage pour l'application
 CMD ["java", "-jar", "/app/app.jar"]
