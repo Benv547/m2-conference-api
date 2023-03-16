@@ -47,7 +47,7 @@ public class ConferenceController {
 
     @PostMapping()
     @Transactional
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<EntityModel<Conference>> createConference(@RequestBody @Valid ConferenceInput conference) {
         Conference saved = service.createConference(modelMapper.map(conference, Conference.class));
         URI location = linkTo(ConferenceController.class).slash(saved.getId()).toUri();
@@ -56,7 +56,7 @@ public class ConferenceController {
 
     @PatchMapping(value = "/{id}")
     @Transactional
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<EntityModel<Conference>> updateConference(@PathVariable("id") String id, @RequestBody ConferenceInput conference) throws ConferenceNotFoundException {
         Conference saved = service.updateConference(id, modelMapper.map(conference, Conference.class));
         URI location = linkTo(ConferenceController.class).slash(saved.getId()).toUri();

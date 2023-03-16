@@ -3,6 +3,7 @@ package fr.miage.conference.conference;
 import fr.miage.conference.conference.entity.Conference;
 import fr.miage.conference.conference.exception.ConferenceNotFoundException;
 import fr.miage.conference.conference.resource.ConferenceResource;
+import fr.miage.conference.session.entity.Session;
 import org.springframework.stereotype.Service;
 
 import javax.ejb.Singleton;
@@ -55,5 +56,13 @@ public class ConferenceServiceBean implements ConferenceService {
     @Override
     public List<Conference> getAllConferences() {
         return resource.findAll();
+    }
+
+    @Override
+    public boolean addSession(String idConference, Session session) throws ConferenceNotFoundException {
+        Conference conference = getConference(idConference);
+        conference.getSessions().add(session);
+        resource.save(conference);
+        return true;
     }
 }
