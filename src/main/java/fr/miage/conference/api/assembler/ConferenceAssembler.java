@@ -28,7 +28,7 @@ public class ConferenceAssembler implements RepresentationModelAssembler<Confere
                 linkTo(methodOn(ConferenceController.class).getConference(entity.getId())).withSelfRel(),
                 linkTo(methodOn(ConferenceController.class).updateConference(entity.getId(), new ConferenceInput())).withRel("update"),
                 linkTo(methodOn(ConferenceController.class).deleteConference(entity.getId())).withRel("delete"),
-                linkTo(methodOn(ConferenceController.class).getAllConferences()).withRel("collection"));
+                linkTo(methodOn(ConferenceController.class).findAllByRsql(null)).withRel("collection"));
     }
 
     @Override
@@ -39,6 +39,6 @@ public class ConferenceAssembler implements RepresentationModelAssembler<Confere
                 .toList();
         return CollectionModel.of(intervenantModel,
                 linkTo(methodOn(ConferenceController.class)
-                        .getAllConferences()).withSelfRel());
+                        .findAllByRsql(null)).withSelfRel());
     }
 }
