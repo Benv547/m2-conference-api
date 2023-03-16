@@ -2,6 +2,7 @@ package fr.miage.conference.conference;
 
 import fr.miage.conference.conference.entity.Conference;
 import fr.miage.conference.conference.exception.ConferenceNotFoundException;
+import fr.miage.conference.session.entity.Session;
 
 import java.util.List;
 
@@ -16,4 +17,6 @@ public interface ConferenceService {
         void deleteConference(String id) throws ConferenceNotFoundException;
 
         List<Conference> getAllConferences();
+
+        boolean addSession(String idConference, Session session) throws ConferenceNotFoundException;
 }
