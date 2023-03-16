@@ -1,11 +1,16 @@
 package fr.miage.conference.api.controller;
 
+import cz.jirutka.rsql.parser.RSQLParser;
+import cz.jirutka.rsql.parser.ast.Node;
+import fr.miage.conference.api.rsql.CustomRsqlVisitor;
 import fr.miage.conference.conference.ConferenceService;
 import fr.miage.conference.api.assembler.ConferenceAssembler;
 import fr.miage.conference.conference.entity.Conference;
 import fr.miage.conference.api.dto.ConferenceInput;
 import fr.miage.conference.conference.exception.ConferenceNotFoundException;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -33,9 +38,11 @@ public class ConferenceController {
 
     private static ModelMapper modelMapper = new ModelMapper();
 
-    @GetMapping()
-    public List<Conference> getAllConferences() {
-        return service.getAllConferences();
+    @GetMapping
+    public ResponseEntity<CollectionModel<EntityModel<Conference>>> findAllByRsql(@RequestParam(value = "search") String search) {
+        Node rootNode = new RSQLParser().parse(search);
+        Specification<Conference> spec = rootNode.accept(new CustomRsqlVisitor<>());
+        return ResponseEntity.ok(assembler.toCollectionModel(service.getAllConferences(spec)));
     }
 
     @GetMapping(value = "/{id}")
