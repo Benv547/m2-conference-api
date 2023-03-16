@@ -1,7 +1,7 @@
-package fr.miage.conference.api.resource;
+package fr.miage.conference.api.controller;
 
 import fr.miage.conference.keycloak.KeycloakService;
-import fr.miage.conference.keycloak.entity.UserInput;
+import fr.miage.conference.api.dto.UserInput;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

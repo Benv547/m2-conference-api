@@ -1,6 +1,6 @@
 package fr.miage.conference.keycloak;
 
-import fr.miage.conference.keycloak.entity.UserInput;
+import fr.miage.conference.api.dto.UserInput;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.Keycloak;

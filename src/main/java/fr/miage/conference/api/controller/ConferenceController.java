@@ -1,9 +1,9 @@
-package fr.miage.conference.api.resource;
+package fr.miage.conference.api.controller;
 
 import fr.miage.conference.conference.ConferenceService;
-import fr.miage.conference.conference.assembler.ConferenceAssembler;
+import fr.miage.conference.api.assembler.ConferenceAssembler;
 import fr.miage.conference.conference.entity.Conference;
-import fr.miage.conference.conference.entity.ConferenceInput;
+import fr.miage.conference.api.dto.ConferenceInput;
 import fr.miage.conference.conference.exception.ConferenceNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.hateoas.EntityModel;

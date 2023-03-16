@@ -1,4 +1,4 @@
-package fr.miage.conference.conference.entity;
+package fr.miage.conference.api.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
