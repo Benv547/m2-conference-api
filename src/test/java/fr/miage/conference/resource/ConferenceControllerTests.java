@@ -22,6 +22,7 @@ import java.util.List;
 
 import static io.restassured.RestAssured.when;
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -95,6 +96,48 @@ public class ConferenceControllerTests {
                 .body(this.toJsonString(conferenceInput)).contentType(ContentType.JSON)
                 .when().post("/conferences").then()
                 .statusCode(HttpStatus.SC_CREATED);
+    }
+
+    @Test
+    void searchConferenceByTitle_isExist_ExpectedTrue() throws Exception {
+
+        // ARRANGE
+        Conference conference = new Conference("1", "conferenceName", "conferenceDescription", "conferencePresentateur", null);
+        cr.save(conference);
+
+        // ACT
+        Response response = when().get("/conferences?search=nom==conferenceName").then()
+                .statusCode(HttpStatus.SC_OK).extract().response();
+        String jsonAsString = response.asString();
+
+        // ASSERT
+        assertThat(jsonAsString,containsString("conferenceName"));
+    }
+
+    @Test
+    void searchConferenceByPresentateur_isExist_ExpectedTrue() throws Exception {
+
+        // ARRANGE
+        Conference conference = new Conference("1", "conferenceName", "conferenceDescription", "conferencePresentateur", null);
+        cr.save(conference);
+
+        // ACT
+        Response response = when().get("/conferences?search=présentateur==conferencePresentateur").then()
+                .statusCode(HttpStatus.SC_OK).extract().response();
+        String jsonAsString = response.asString();
+
+        // ASSERT
+        assertThat(jsonAsString,containsString("conferencePresentateur"));
+    }
+
+    @Test
+    void searchPromptIsIncorrect_ExpectedFalse() throws Exception {
+
+        // ARRANGE
+
+        // ACT & ASSERT
+        when().get("/conferences?search=machin==conferenceName").then()
+                .statusCode(HttpStatus.SC_BAD_REQUEST);
     }
 
     private String toJsonString(Object r) throws Exception {
