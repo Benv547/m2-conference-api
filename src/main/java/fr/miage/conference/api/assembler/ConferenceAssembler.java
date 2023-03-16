@@ -1,6 +1,7 @@
 package fr.miage.conference.api.assembler;
 
 import fr.miage.conference.api.controller.ConferenceController;
+import fr.miage.conference.api.controller.SessionController;
 import fr.miage.conference.conference.entity.Conference;
 import fr.miage.conference.api.dto.ConferenceInput;
 import lombok.SneakyThrows;
@@ -26,9 +27,9 @@ public class ConferenceAssembler implements RepresentationModelAssembler<Confere
     public EntityModel<Conference> toModel(Conference entity) {
         return EntityModel.of(entity,
                 linkTo(methodOn(ConferenceController.class).getConference(entity.getId())).withSelfRel(),
-                linkTo(methodOn(ConferenceController.class).updateConference(entity.getId(), new ConferenceInput())).withRel("update"),
-                linkTo(methodOn(ConferenceController.class).deleteConference(entity.getId())).withRel("delete"),
-                linkTo(methodOn(ConferenceController.class).findAllByRsql(null)).withRel("collection"));
+                linkTo(methodOn(SessionController.class).getSessions(entity.getId())).withRel("sessions").withTitle("Sessions of the conference"),
+                linkTo(methodOn(ConferenceController.class).findAllByRsql(null)).withRel("collection").withTitle("Search conferences")
+        );
     }
 
     @Override

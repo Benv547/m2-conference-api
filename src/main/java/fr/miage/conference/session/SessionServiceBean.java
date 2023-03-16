@@ -39,4 +39,9 @@ public class SessionServiceBean implements SessionService {
     public List<Session> getSessionsFromConference(String idConference) {
         return resource.findAllByConferenceId(idConference);
     }
+
+    @Override
+    public Session getSession(String conferenceId, String id) {
+        return resource.getReferenceByIdAndConferenceId(id, conferenceId);
+    }
 }

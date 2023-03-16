@@ -10,4 +10,6 @@ public interface SessionService {
     Session createSession(String idConference, Session session) throws CannotAddToConferenceException;
 
     List<Session> getSessionsFromConference(String idConference);
+
+    Session getSession(String conferenceId, String id);
 }
