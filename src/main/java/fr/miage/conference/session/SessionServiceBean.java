@@ -27,6 +27,7 @@ public class SessionServiceBean implements SessionService {
     @Override
     public Session createSession(String idConference, Session session) throws CannotAddToConferenceException {
 
+        session.setNbPlacesRestantes(session.getNbPlaces());
         try {
             conferenceService.addSession(idConference, session);
         } catch (ConferenceNotFoundException e) {

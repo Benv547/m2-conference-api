@@ -14,5 +14,6 @@ public class SessionInput {
     private float prix;
     private Date date;
     private String lieu;
+    private int nbPlaces;
 
 }
