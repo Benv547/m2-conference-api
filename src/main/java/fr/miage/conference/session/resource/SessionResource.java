@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface SessionResource extends JpaRepository<Session, String> {
     List<Session> findAllByConferenceId(String idConference);
+
+    Session getReferenceByIdAndConferenceId(String id, String idConference);
 }
