@@ -1,4 +1,4 @@
-package fr.miage.conference.security.config;
+package fr.miage.conference.keycloak.config;
 
 import org.keycloak.adapters.springsecurity.KeycloakConfiguration;
 import org.keycloak.adapters.springsecurity.authentication.KeycloakAuthenticationProvider;
