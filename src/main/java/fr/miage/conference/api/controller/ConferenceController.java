@@ -40,9 +40,17 @@ public class ConferenceController {
 
     @GetMapping
     public ResponseEntity<CollectionModel<EntityModel<Conference>>> findAllByRsql(@RequestParam(value = "search") String search) {
-        Node rootNode = new RSQLParser().parse(search);
-        Specification<Conference> spec = rootNode.accept(new CustomRsqlVisitor<>());
-        return ResponseEntity.ok(assembler.toCollectionModel(service.getAllConferences(spec)));
+        try {
+            Node rootNode = new RSQLParser().parse(search);
+            Specification<Conference> spec = rootNode.accept(new CustomRsqlVisitor<>());
+            List<Conference> list = service.getAllConferences(spec);
+            if (list.isEmpty()) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(assembler.toCollectionModel(list));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @GetMapping(value = "/{id}")
