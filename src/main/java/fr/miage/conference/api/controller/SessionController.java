@@ -34,7 +34,7 @@ public class SessionController {
 
     @PostMapping
     @Transactional
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<EntityModel<Session>> createSession(@PathVariable String conferenceId, @RequestBody @Valid SessionInput session) throws CannotAddToConferenceException {
         Session saved = service.createSession(conferenceId, modelMapper.map(session, Session.class));
         URI location = linkTo(ConferenceController.class).slash(conferenceId).slash("sessions").slash(saved.getId()).toUri();

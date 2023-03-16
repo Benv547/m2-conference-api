@@ -1,9 +1,13 @@
 package fr.miage.conference.resource;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.miage.conference.api.dto.ConferenceInput;
 import fr.miage.conference.conference.entity.Conference;
 import fr.miage.conference.conference.resource.ConferenceResource;
+import fr.miage.conference.session.entity.Session;
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,6 +15,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
+import org.springframework.web.context.WebApplicationContext;
+
+import java.util.List;
+
 import static io.restassured.RestAssured.when;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -28,13 +37,17 @@ public class ConferenceControllerTests {
     public void setupContext() {
         cr.deleteAll();
         RestAssured.port = port;
+        RestAssuredMockMvc.webAppContextSetup(webApplicationContext);
     }
+
+    @Autowired
+    private WebApplicationContext webApplicationContext;
 
     @Test
     void getConference_isExist_ExpectedTrue() throws Exception {
 
         // ARRANGE
-        Conference conference = new Conference("1", "conferenceName", "conferenceDescription", "conferencePresentateur");
+        Conference conference = new Conference("1", "conferenceName", "conferenceDescription", "conferencePresentateur", null);
         cr.save(conference);
 
         // ACT
@@ -54,5 +67,38 @@ public class ConferenceControllerTests {
         // ACT & ASSERT
         when().get("/conferences/12").then()
                 .statusCode(HttpStatus.SC_NOT_FOUND);
+    }
+
+    @Test
+    void createConference_notAdmin_ExpectedFalse() throws Exception {
+
+        // ARRANGE
+        ConferenceInput conferenceInput = new ConferenceInput("conferenceName", "conferenceDescription", "conferencePresentateur");
+
+        // ACT & ASSERT
+        RestAssuredMockMvc.given()
+                .auth().with(SecurityMockMvcRequestPostProcessors.user("user").roles("USER"))
+                .body(this.toJsonString(conferenceInput)).contentType(ContentType.JSON)
+                .when().post("/conferences").then()
+                .statusCode(HttpStatus.SC_FORBIDDEN);
+    }
+
+    @Test
+    void createConference_isAdmin_ExpectedTrue() throws Exception {
+
+        // ARRANGE
+        ConferenceInput conferenceInput = new ConferenceInput("conferenceName", "conferenceDescription", "conferencePresentateur");
+
+        // ACT & ASSERT
+        RestAssuredMockMvc.given()
+                .auth().with(SecurityMockMvcRequestPostProcessors.user("user").roles("ADMIN"))
+                .body(this.toJsonString(conferenceInput)).contentType(ContentType.JSON)
+                .when().post("/conferences").then()
+                .statusCode(HttpStatus.SC_CREATED);
+    }
+
+    private String toJsonString(Object r) throws Exception {
+        ObjectMapper map = new ObjectMapper();
+        return map.writeValueAsString(r);
     }
 }
