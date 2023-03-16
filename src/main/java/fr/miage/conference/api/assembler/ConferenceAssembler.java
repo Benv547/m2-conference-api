@@ -1,8 +1,8 @@
-package fr.miage.conference.conference.assembler;
+package fr.miage.conference.api.assembler;
 
-import fr.miage.conference.api.resource.ConferenceController;
+import fr.miage.conference.api.controller.ConferenceController;
 import fr.miage.conference.conference.entity.Conference;
-import fr.miage.conference.conference.entity.ConferenceInput;
+import fr.miage.conference.api.dto.ConferenceInput;
 import lombok.SneakyThrows;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
