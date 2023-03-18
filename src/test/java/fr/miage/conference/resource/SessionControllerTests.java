@@ -61,9 +61,9 @@ public class SessionControllerTests {
     void getSessions_conferenceIdExist_ExpectedTrue() throws Exception {
         // ARRANGE
         ArrayList<Session> sessions = new ArrayList<>();
-        Session session = new Session("1", 20.0f, new Date(), "sessionSpeaker", "1");
+        Session session = new Session("1", 20.0f, new Date(), "sessionSpeaker", "1", 50, 50);
         sessions.add(session);
-        Session session2 = new Session("2", 10.0f, new Date(), "sessionSpeaker2", "1");
+        Session session2 = new Session("2", 10.0f, new Date(), "sessionSpeaker2", "1", 50, 50);
         sessions.add(session2);
         Conference conference = new Conference("1", "conferenceName", "conferenceDescription", "conferencePresentateur", sessions);
         cr.save(conference);
@@ -82,7 +82,7 @@ public class SessionControllerTests {
     @Test
     void createSession_conferenceIdNotExist_ExpectedFalse() throws Exception {
         // ARRANGE
-        SessionInput sessionInput = new SessionInput(20.0f, new Date(), "sessionSpeaker");
+        SessionInput sessionInput = new SessionInput(20.0f, new Date(), "sessionSpeaker", 50);
 
         // ACT & ASSERT
         RestAssuredMockMvc.given()
@@ -98,7 +98,7 @@ public class SessionControllerTests {
         Conference conference = new Conference("1", "conferenceName", "conferenceDescription", "conferencePresentateur", new ArrayList<>());
         cr.save(conference);
 
-        SessionInput sessionInput = new SessionInput(20.0f, new Date(), "sessionSpeaker");
+        SessionInput sessionInput = new SessionInput(20.0f, new Date(), "sessionSpeaker", 50);
 
         // ACT & ASSERT
         RestAssuredMockMvc.given()
@@ -114,7 +114,7 @@ public class SessionControllerTests {
         Conference conference = new Conference("1", "conferenceName", "conferenceDescription", "conferencePresentateur", new ArrayList<>());
         cr.save(conference);
 
-        SessionInput sessionInput = new SessionInput(20.0f, new Date(), "sessionSpeaker");
+        SessionInput sessionInput = new SessionInput(20.0f, new Date(), "sessionSpeaker", 50);
 
         // ACT & ASSERT
         RestAssuredMockMvc.given()
@@ -130,7 +130,7 @@ public class SessionControllerTests {
         Conference conference = new Conference("1", "conferenceName", "conferenceDescription", "conferencePresentateur", new ArrayList<>());
         cr.save(conference);
 
-        SessionInput sessionInput = new SessionInput(20.0f, new Date(), "sessionSpeaker");
+        SessionInput sessionInput = new SessionInput(20.0f, new Date(), "sessionSpeaker", 50);
 
         // ACT & ASSERT
         RestAssuredMockMvc.given()
