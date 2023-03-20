@@ -14,6 +14,9 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.ejb.EJB;
@@ -33,6 +36,7 @@ public class ReservationController {
     private static ModelMapper modelMapper = new ModelMapper();
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CollectionModel<EntityModel<Reservation>>> getReservations(@PathVariable String conferenceId, @PathVariable String sessionId) {
 
         List<Reservation> list = service.getReservations(conferenceId, sessionId);
@@ -44,7 +48,13 @@ public class ReservationController {
     }
 
     @GetMapping(value = "/{userId}")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<EntityModel<Reservation>> getReservation(@PathVariable String conferenceId, @PathVariable String sessionId, @PathVariable String userId) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!authentication.getName().equals(userId)) {
+            return ResponseEntity.status(403).build();
+        }
 
         Reservation reservation = service.getReservation(conferenceId, sessionId, userId);
         if (reservation == null) {
@@ -55,7 +65,13 @@ public class ReservationController {
     }
 
     @PostMapping(value = "/{userId}")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<EntityModel<Reservation>> createReservation(@PathVariable String conferenceId, @PathVariable String sessionId, @PathVariable String userId, @RequestBody @Valid ReservationInput input) throws CannotProcessReservationException {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!authentication.getName().equals(userId)) {
+            return ResponseEntity.status(403).build();
+        }
 
         Reservation reservation = new Reservation();
         reservation.setSessionId(sessionId);
@@ -69,7 +85,13 @@ public class ReservationController {
     }
 
     @PostMapping(value = "/{userId}/cancel")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<EntityModel> cancelReservation(@PathVariable String conferenceId, @PathVariable String sessionId, @PathVariable String userId) throws CannotProcessReservationException {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!authentication.getName().equals(userId)) {
+            return ResponseEntity.status(403).build();
+        }
 
         if (service.cancelReservation(conferenceId, sessionId, userId)) {
             return ResponseEntity.noContent().build();
@@ -81,7 +103,13 @@ public class ReservationController {
 
 
     @PostMapping(value = "/{userId}/payment")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<EntityModel> paymentReservation(@PathVariable String conferenceId, @PathVariable String sessionId, @PathVariable String userId, @RequestBody @Valid BankCardInformationInput cardInformation) throws CannotProcessPaymentException {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!authentication.getName().equals(userId)) {
+            return ResponseEntity.status(403).build();
+        }
 
         if (service.paymentReservation(modelMapper.map(cardInformation, BankCardInformation.class), conferenceId, sessionId, userId)) {
             return ResponseEntity.noContent().build();
