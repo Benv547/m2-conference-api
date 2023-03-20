@@ -7,5 +7,7 @@ import java.util.List;
 
 public interface ReservationResource extends JpaRepository<Reservation, String> {
 
-    List<Reservation> findAllBySessionIdAndSessionConferenceId(String sessionId, String conferenceId);
+    List<Reservation> findAllBySessionIdAndConferenceId(String sessionId, String conferenceId);
+
+    Reservation findOneBySessionIdAndConferenceIdAndUserId(String sessionId, String conferenceId, String userId);
 }

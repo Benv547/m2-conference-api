@@ -4,11 +4,18 @@ import fr.miage.conference.reservation.entity.Reservation;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
+import org.springframework.stereotype.Service;
 
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
+
+@Singleton
+@Startup
+@Service
 public class ReservationAssembler implements RepresentationModelAssembler<Reservation, EntityModel<Reservation>> {
     @Override
     public EntityModel<Reservation> toModel(Reservation entity) {
-        return null;
+        return EntityModel.of(entity);
     }
 
     @Override
