@@ -105,7 +105,7 @@ public class ReservationServiceBean implements ReservationService {
             throw new CannotProcessPaymentException("Cannot find session with id: " + sessionId);
         }
 
-        if (bankService.processPayment(bankCardInformation, session.getPrix())) {
+        if (bankService.processPayment(bankCardInformation, session.getPrix() * reservation.getNbPlaces())) {
             reservation.setPayee(true);
             resource.save(reservation);
             return true;
