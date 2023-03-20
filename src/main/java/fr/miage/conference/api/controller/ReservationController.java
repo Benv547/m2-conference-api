@@ -53,7 +53,7 @@ public class ReservationController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!authentication.getName().equals(userId)) {
-            return ResponseEntity.status(403).build();
+            return ResponseEntity.status(401).build();
         }
 
         Reservation reservation = service.getReservation(conferenceId, sessionId, userId);
@@ -70,7 +70,7 @@ public class ReservationController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!authentication.getName().equals(userId)) {
-            return ResponseEntity.status(403).build();
+            return ResponseEntity.status(401).build();
         }
 
         Reservation reservation = new Reservation();
@@ -90,7 +90,7 @@ public class ReservationController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!authentication.getName().equals(userId)) {
-            return ResponseEntity.status(403).build();
+            return ResponseEntity.status(401).build();
         }
 
         if (service.cancelReservation(conferenceId, sessionId, userId)) {
@@ -108,7 +108,7 @@ public class ReservationController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!authentication.getName().equals(userId)) {
-            return ResponseEntity.status(403).build();
+            return ResponseEntity.status(401).build();
         }
 
         if (service.paymentReservation(modelMapper.map(cardInformation, BankCardInformation.class), conferenceId, sessionId, userId)) {

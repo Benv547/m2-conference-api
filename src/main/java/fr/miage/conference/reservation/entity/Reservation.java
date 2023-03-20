@@ -22,6 +22,5 @@ public class Reservation {
     private int nbPlaces;
     private boolean payee;
     private boolean annulee;
-    private boolean validee;
     
 }
