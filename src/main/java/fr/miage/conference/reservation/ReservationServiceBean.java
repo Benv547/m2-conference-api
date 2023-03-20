@@ -113,4 +113,9 @@ public class ReservationServiceBean implements ReservationService {
             throw new CannotProcessPaymentException("Bank refused payment");
         }
     }
+
+    @Override
+    public Reservation getReservation(String conferenceId, String sessionId, String userId) {
+        return resource.findOneBySessionIdAndConferenceIdAndUserId(sessionId, conferenceId, userId);
+    }
 }

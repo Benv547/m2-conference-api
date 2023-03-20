@@ -17,4 +17,6 @@ public interface ReservationService {
     boolean cancelReservation(String conferenceId, String sessionId, String userId);
 
     boolean paymentReservation(BankCardInformation bankCardInformation, String conferenceId, String sessionId, String userId) throws CannotProcessPaymentException;
+
+    Reservation getReservation(String conferenceId, String sessionId, String userId);
 }

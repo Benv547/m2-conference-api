@@ -39,7 +39,18 @@ public class ReservationController {
         if (list == null || list.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(assembler.toCollectionModel(list));
+        return ResponseEntity.ok(assembler.toCollectionModel(conferenceId, sessionId, list));
+
+    }
+
+    @GetMapping(value = "/{userId}")
+    public ResponseEntity<EntityModel<Reservation>> getReservation(@PathVariable String conferenceId, @PathVariable String sessionId, @PathVariable String userId) {
+
+        Reservation reservation = service.getReservation(conferenceId, sessionId, userId);
+        if (reservation == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(assembler.toModel(reservation));
 
     }
 
