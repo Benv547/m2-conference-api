@@ -8,8 +8,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class GenericRsqlSpecification<T> implements Specification<T> {
 
@@ -73,7 +73,7 @@ public class GenericRsqlSpecification<T> implements Specification<T> {
 
         Class<? extends Object> type = root.get(property).getJavaType();
 
-        List<Object> args = arguments.stream().map(arg -> {
+        return Collections.singletonList(arguments.stream().map(arg -> {
             if (type.equals(Integer.class)) {
                 return Integer.parseInt(arg);
             } else if (type.equals(Long.class)) {
@@ -81,9 +81,7 @@ public class GenericRsqlSpecification<T> implements Specification<T> {
             } else {
                 return arg;
             }
-        }).collect(Collectors.toList());
-
-        return args;
+        }).toList());
     }
 
     // standard constructor, getter, setter
@@ -110,7 +108,7 @@ public class GenericRsqlSpecification<T> implements Specification<T> {
                     return operation;
                 }
             }
-            return null;
+            return RsqlSearchOperation.EQUAL;
         }
 
         public ComparisonOperator getOperator() {

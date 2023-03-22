@@ -45,19 +45,17 @@ public class ReservationServiceBean implements ReservationService {
     public Reservation createReservation(Reservation reservation) throws CannotProcessReservationException {
 
         try {
-            var conference = conferenceService.getConference(reservation.getConferenceId());
+            conferenceService.getConference(reservation.getConferenceId());
             var session = sessionService.getSession(reservation.getConferenceId(), reservation.getSessionId());
             if (session.getNbPlacesRestantes() < reservation.getNbPlaces()) {
-                throw new CannotProcessReservationException("Cannot process reservation for conference with id: " + reservation.getConferenceId()
-                        + " and session with id: " + reservation.getSessionId() + " because there is not enough places");
+                throw new CannotProcessReservationException(ReservationMessageEnum.RESERVATION_IS_FULL.getMessage());
             }
 
             session.setNbPlacesRestantes(session.getNbPlacesRestantes() - reservation.getNbPlaces());
             sessionService.updateSession(reservation.getConferenceId(), session);
 
         } catch (ConferenceNotFoundException | SessionNotFoundException e) {
-            throw new CannotProcessReservationException("Cannot process reservation for conference with id: " + reservation.getConferenceId() +
-                    " and session with id: " + reservation.getSessionId());
+            throw new CannotProcessReservationException(ReservationMessageEnum.RESERVATION_NOT_FOUND_BY_CONFERENCE_ID.getMessage() + reservation.getConferenceId());
         }
 
         return resource.save(reservation);
@@ -94,15 +92,14 @@ public class ReservationServiceBean implements ReservationService {
         Reservation reservation = resource.findOneBySessionIdAndConferenceIdAndUserId(sessionId, conferenceId, userId);
 
         if ( reservation == null || reservation.isPayee() || reservation.isAnnulee()) {
-            throw new CannotProcessPaymentException("Cannot process payment for conference with id: " + conferenceId +
-                    " and session with id: " + sessionId);
+            throw new CannotProcessPaymentException(ReservationMessageEnum.RESERVATION_IS_LOCKED.getMessage());
         }
 
         Session session;
         try {
             session = sessionService.getSession(conferenceId, sessionId);
         } catch (SessionNotFoundException e) {
-            throw new CannotProcessPaymentException("Cannot find session with id: " + sessionId);
+            throw new CannotProcessPaymentException(ReservationMessageEnum.RESERVATION_NOT_FOUND_BY_SESSION_ID.getMessage() + sessionId);
         }
 
         if (bankService.processPayment(bankCardInformation, session.getPrix() * reservation.getNbPlaces())) {
@@ -110,7 +107,7 @@ public class ReservationServiceBean implements ReservationService {
             resource.save(reservation);
             return true;
         } else {
-            throw new CannotProcessPaymentException("Bank refused payment");
+            throw new CannotProcessPaymentException(ReservationMessageEnum.RESERVATION_BANK_REFUSED.getMessage());
         }
     }
 

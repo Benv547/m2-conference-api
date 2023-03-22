@@ -1,6 +1,7 @@
 package fr.miage.conference.conference;
 
 import fr.miage.conference.conference.entity.Conference;
+import fr.miage.conference.conference.enumeration.ConferenceMessageEnum;
 import fr.miage.conference.conference.exception.ConferenceNotFoundException;
 import fr.miage.conference.conference.resource.ConferenceResource;
 import fr.miage.conference.session.entity.Session;
@@ -28,14 +29,14 @@ public class ConferenceServiceBean implements ConferenceService {
     @Override
     public Conference updateConference(String id, Conference conference) throws ConferenceNotFoundException {
 
-        Conference existingConference = resource.findById(id).orElseThrow(() -> new ConferenceNotFoundException("Conference with id: " + id + " not found"));
+        Conference existingConference = resource.findById(id).orElseThrow(() -> new ConferenceNotFoundException(ConferenceMessageEnum.CONFERENCE_NOT_FOUND.getMessage()));
 
         if (conference.getNom() != null)
             existingConference.setNom(conference.getNom());
         if (conference.getDescription() != null)
             existingConference.setDescription(conference.getDescription());
-        if (conference.getPrésentateur() != null)
-            existingConference.setPrésentateur(conference.getPrésentateur());
+        if (conference.getPresentateur() != null)
+            existingConference.setPresentateur(conference.getPresentateur());
 
         conference.setId(id);
         return resource.save(conference);
@@ -43,13 +44,13 @@ public class ConferenceServiceBean implements ConferenceService {
 
     @Override
     public Conference getConference(String id) throws ConferenceNotFoundException {
-        return resource.findById(id).orElseThrow(() -> new ConferenceNotFoundException("Conference with id: " + id + " not found"));
+        return resource.findById(id).orElseThrow(() -> new ConferenceNotFoundException(ConferenceMessageEnum.CONFERENCE_NOT_FOUND.getMessage()));
     }
 
     @Override
     public void deleteConference(String id) throws ConferenceNotFoundException {
         if (!resource.existsById(id)) {
-            throw new ConferenceNotFoundException("Conference with id: " + id + " not found");
+            throw new ConferenceNotFoundException(ConferenceMessageEnum.CONFERENCE_NOT_FOUND.getMessage());
         }
         resource.deleteById(id);
     }

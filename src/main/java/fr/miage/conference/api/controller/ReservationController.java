@@ -89,7 +89,7 @@ public class ReservationController {
 
     @PostMapping(value = "/{userId}/cancel")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<EntityModel> cancelReservation(@PathVariable String conferenceId, @PathVariable String sessionId, @PathVariable String userId) throws CannotProcessReservationException {
+    public ResponseEntity<EntityModel<Object>> cancelReservation(@PathVariable String conferenceId, @PathVariable String sessionId, @PathVariable String userId) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!authentication.getName().equals(userId)) {
@@ -107,7 +107,7 @@ public class ReservationController {
 
     @PostMapping(value = "/{userId}/payment")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<EntityModel> paymentReservation(@PathVariable String conferenceId, @PathVariable String sessionId, @PathVariable String userId, @RequestBody @Valid BankCardInformationInput cardInformation) throws CannotProcessPaymentException {
+    public ResponseEntity<EntityModel<Object>> paymentReservation(@PathVariable String conferenceId, @PathVariable String sessionId, @PathVariable String userId, @RequestBody @Valid BankCardInformationInput cardInformation) throws CannotProcessPaymentException {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!authentication.getName().equals(userId)) {

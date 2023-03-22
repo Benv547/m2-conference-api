@@ -18,7 +18,7 @@ public class Conference {
     private String id = UUID.randomUUID().toString();
     private String nom;
     private String description;
-    private String présentateur;
+    private String presentateur;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "conferenceId")
     private List<Session> sessions;

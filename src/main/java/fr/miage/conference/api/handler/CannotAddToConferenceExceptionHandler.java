@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class CannotAddToConferenceExceptionHandler {
 
     @ExceptionHandler(CannotAddToConferenceException.class)
-    public ResponseEntity<?> handleConstraintViolationException(CannotAddToConferenceException e) {
+    public ResponseEntity<Object> handleConstraintViolationException(CannotAddToConferenceException e) {
         return ResponseEntity.badRequest().body(e.getMessage());
     }
 

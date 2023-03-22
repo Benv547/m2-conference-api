@@ -37,9 +37,11 @@ public class KeycloakServiceBean implements KeycloakService {
         user.setCredentials(Collections.singletonList(credential));
         user.setEnabled(true);
 
-        Response response = getInstance().create(user);
-
-        return response.getStatus() == 201;
+        try (Response response = getInstance().create(user)) {
+            return response.getStatus() == 201;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public KeycloakServiceBean(@Value("${keycloak.auth-server-url}") String serverUrl,

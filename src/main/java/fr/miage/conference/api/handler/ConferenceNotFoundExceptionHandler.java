@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ConferenceNotFoundExceptionHandler {
 
     @ExceptionHandler(ConferenceNotFoundException.class)
-    public ResponseEntity<?> handleConstraintViolationException(ConferenceNotFoundException e) {
+    public ResponseEntity<Object> handleConstraintViolationException(ConferenceNotFoundException e) {
         return ResponseEntity.notFound().build();
     }
 

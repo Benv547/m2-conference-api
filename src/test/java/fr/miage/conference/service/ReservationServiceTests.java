@@ -28,7 +28,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest()
-public class ReservationServiceTests {
+class ReservationServiceTests {
 
     @MockBean
     ReservationResource rr;
@@ -62,7 +62,7 @@ public class ReservationServiceTests {
         conference.setId("1");
         conference.setNom("Test");
         conference.setSessions(sessions);
-        conference.setPrésentateur("Test");
+        conference.setPresentateur("Test");
 
         when(cs.getConference(Mockito.anyString()))
                 .thenReturn(conference);
@@ -103,7 +103,7 @@ public class ReservationServiceTests {
         conference.setId("1");
         conference.setNom("Test");
         conference.setSessions(sessions);
-        conference.setPrésentateur("Test");
+        conference.setPresentateur("Test");
 
         when(cs.getConference(Mockito.anyString()))
                 .thenReturn(conference);
@@ -143,7 +143,7 @@ public class ReservationServiceTests {
         conference.setId("1");
         conference.setNom("Test");
         conference.setSessions(sessions);
-        conference.setPrésentateur("Test");
+        conference.setPresentateur("Test");
 
         when(cs.getConference(Mockito.anyString()))
                 .thenReturn(conference);
@@ -183,7 +183,7 @@ public class ReservationServiceTests {
         conference.setId("1");
         conference.setNom("Test");
         conference.setSessions(sessions);
-        conference.setPrésentateur("Test");
+        conference.setPresentateur("Test");
 
         when(cs.getConference(Mockito.anyString()))
                 .thenReturn(conference);
@@ -223,7 +223,7 @@ public class ReservationServiceTests {
         conference.setId("1");
         conference.setNom("Test");
         conference.setSessions(sessions);
-        conference.setPrésentateur("Test");
+        conference.setPresentateur("Test");
 
         when(cs.getConference(Mockito.anyString()))
                 .thenThrow(ConferenceNotFoundException.class);
@@ -263,7 +263,7 @@ public class ReservationServiceTests {
         conference.setId("1");
         conference.setNom("Test");
         conference.setSessions(sessions);
-        conference.setPrésentateur("Test");
+        conference.setPresentateur("Test");
 
         when(cs.getConference(Mockito.anyString()))
                 .thenReturn(conference);
@@ -304,7 +304,7 @@ public class ReservationServiceTests {
         conference.setId("1");
         conference.setNom("Test");
         conference.setSessions(sessions);
-        conference.setPrésentateur("Test");
+        conference.setPresentateur("Test");
 
         when(cs.getConference(Mockito.anyString()))
                 .thenReturn(conference);
@@ -347,7 +347,7 @@ public class ReservationServiceTests {
         conference.setId("1");
         conference.setNom("Test");
         conference.setSessions(sessions);
-        conference.setPrésentateur("Test");
+        conference.setPresentateur("Test");
 
         when(cs.getConference(Mockito.anyString()))
                 .thenReturn(conference);
@@ -390,7 +390,7 @@ public class ReservationServiceTests {
         conference.setId("1");
         conference.setNom("Test");
         conference.setSessions(sessions);
-        conference.setPrésentateur("Test");
+        conference.setPresentateur("Test");
 
         when(cs.getConference(Mockito.anyString()))
                 .thenReturn(conference);
@@ -424,7 +424,7 @@ public class ReservationServiceTests {
         conference.setId("1");
         conference.setNom("Test");
         conference.setSessions(sessions);
-        conference.setPrésentateur("Test");
+        conference.setPresentateur("Test");
 
         when(cs.getConference(Mockito.anyString()))
                 .thenReturn(conference);
@@ -468,7 +468,7 @@ public class ReservationServiceTests {
         conference.setId("1");
         conference.setNom("Test");
         conference.setSessions(sessions);
-        conference.setPrésentateur("Test");
+        conference.setPresentateur("Test");
 
         when(cs.getConference(Mockito.anyString()))
                 .thenReturn(conference);
@@ -519,7 +519,7 @@ public class ReservationServiceTests {
         conference.setId("1");
         conference.setNom("Test");
         conference.setSessions(sessions);
-        conference.setPrésentateur("Test");
+        conference.setPresentateur("Test");
 
         when(cs.getConference(Mockito.anyString()))
                 .thenReturn(conference);
@@ -571,7 +571,7 @@ public class ReservationServiceTests {
         conference.setId("1");
         conference.setNom("Test");
         conference.setSessions(sessions);
-        conference.setPrésentateur("Test");
+        conference.setPresentateur("Test");
 
         when(cs.getConference(Mockito.anyString()))
                 .thenReturn(conference);
@@ -623,7 +623,7 @@ public class ReservationServiceTests {
         conference.setId("1");
         conference.setNom("Test");
         conference.setSessions(sessions);
-        conference.setPrésentateur("Test");
+        conference.setPresentateur("Test");
 
         when(cs.getConference(Mockito.anyString()))
                 .thenReturn(conference);
@@ -666,7 +666,7 @@ public class ReservationServiceTests {
         conference.setId("1");
         conference.setNom("Test");
         conference.setSessions(sessions);
-        conference.setPrésentateur("Test");
+        conference.setPresentateur("Test");
 
         when(cs.getConference(Mockito.anyString()))
                 .thenReturn(conference);
