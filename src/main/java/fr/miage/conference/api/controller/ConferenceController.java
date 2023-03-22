@@ -80,7 +80,7 @@ public class ConferenceController {
 
     @DeleteMapping(value = "/{id}")
     @Transactional
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Conference> deleteConference(@PathVariable("id") String id) throws ConferenceNotFoundException {
         service.deleteConference(id);
         return ResponseEntity.noContent().build();

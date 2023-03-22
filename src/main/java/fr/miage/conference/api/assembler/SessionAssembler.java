@@ -4,6 +4,7 @@ import fr.miage.conference.api.controller.ConferenceController;
 import fr.miage.conference.api.controller.SessionController;
 import fr.miage.conference.conference.entity.Conference;
 import fr.miage.conference.session.entity.Session;
+import fr.miage.conference.session.exception.SessionNotFoundException;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
@@ -24,10 +25,14 @@ public class SessionAssembler implements RepresentationModelAssembler<Session, E
 
     @Override
     public EntityModel<Session> toModel(Session entity) {
-        return EntityModel.of(entity,
-            linkTo(methodOn(SessionController.class).getSession(entity.getConferenceId(), entity.getId())).withSelfRel(),
-            linkTo(methodOn(SessionController.class).getSessions(entity.getConferenceId())).withRel("sessions").withTitle("Others sessions of the conference")
-        );
+        try {
+            return EntityModel.of(entity,
+                linkTo(methodOn(SessionController.class).getSession(entity.getConferenceId(), entity.getId())).withSelfRel(),
+                linkTo(methodOn(SessionController.class).getSessions(entity.getConferenceId())).withRel("sessions").withTitle("Others sessions of the conference")
+            );
+        } catch (SessionNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public CollectionModel<EntityModel<Session>> toCollectionModel(String conferenceId, Iterable<? extends Session> entities) {

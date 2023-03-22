@@ -4,6 +4,7 @@ import fr.miage.conference.conference.ConferenceService;
 import fr.miage.conference.conference.exception.ConferenceNotFoundException;
 import fr.miage.conference.session.entity.Session;
 import fr.miage.conference.session.exception.CannotAddToConferenceException;
+import fr.miage.conference.session.exception.SessionNotFoundException;
 import fr.miage.conference.session.resource.SessionResource;
 import org.springframework.stereotype.Service;
 
@@ -42,7 +43,23 @@ public class SessionServiceBean implements SessionService {
     }
 
     @Override
-    public Session getSession(String conferenceId, String id) {
-        return resource.getReferenceByIdAndConferenceId(id, conferenceId);
+    public Session getSession(String conferenceId, String id) throws SessionNotFoundException {
+        Session session = resource.getReferenceByIdAndConferenceId(id, conferenceId);
+        if (session == null) {
+            throw new SessionNotFoundException("Session with id: " + id + " not found");
+        }
+        return session;
+    }
+
+    @Override
+    public void updateSession(String conferenceId, Session session) throws SessionNotFoundException {
+
+        Session sessionToUpdate = getSession(conferenceId, session.getId());
+
+        if (sessionToUpdate.getNbPlacesRestantes() < session.getNbPlacesRestantes()) {
+            sessionToUpdate.setNbPlacesRestantes(session.getNbPlacesRestantes());
+        }
+
+        resource.save(sessionToUpdate);
     }
 }

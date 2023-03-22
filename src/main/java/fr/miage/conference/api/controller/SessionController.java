@@ -5,6 +5,7 @@ import fr.miage.conference.api.dto.SessionInput;
 import fr.miage.conference.session.SessionService;
 import fr.miage.conference.session.entity.Session;
 import fr.miage.conference.session.exception.CannotAddToConferenceException;
+import fr.miage.conference.session.exception.SessionNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -36,7 +37,7 @@ public class SessionController {
     @PostMapping
     @Transactional
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<EntityModel<Session>> createSession(@PathVariable String conferenceId, @RequestBody @Valid SessionInput session) throws CannotAddToConferenceException {
+    public ResponseEntity<EntityModel<Session>> createSession(@PathVariable String conferenceId, @RequestBody @Valid SessionInput session) throws CannotAddToConferenceException, SessionNotFoundException {
         Session saved = service.createSession(conferenceId, modelMapper.map(session, Session.class));
         URI location = linkTo(methodOn(SessionController.class).getSession(conferenceId, saved.getId())).toUri();
         return ResponseEntity.created(location).body(assembler.toModel(saved));
@@ -48,7 +49,7 @@ public class SessionController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<EntityModel<Session>> getSession(@PathVariable String conferenceId, @PathVariable String id) {
+    public ResponseEntity<EntityModel<Session>> getSession(@PathVariable String conferenceId, @PathVariable String id) throws SessionNotFoundException {
         return ResponseEntity.ok(assembler.toModel(service.getSession(conferenceId, id)));
     }
 }
