@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.ejb.EJB;
+import javax.validation.Valid;
 
 @RestController
 @AllArgsConstructor
@@ -20,8 +21,8 @@ public class KeycloakController {
     KeycloakService service;
 
     @PostMapping
-    public ResponseEntity addUser(@RequestBody UserInput user){
-        if (service.createUser(user)){
+    public ResponseEntity addUser(@RequestBody @Valid UserInput user){
+        if (service.createUser(user)) {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.badRequest().build();
