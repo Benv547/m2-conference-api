@@ -29,8 +29,8 @@ public class M2ConferenceApiApplication {
         @Override
         public Object postProcessBeforeInitialization(Object bean, String beanName)
                 throws BeansException {
-            if (bean instanceof DataSource) {
-                bean = new RetryableDataSource((DataSource)bean);
+            if (bean instanceof DataSource dataSource) {
+                bean = new RetryableDataSource(dataSource);
             }
             return bean;
         }

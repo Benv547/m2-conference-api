@@ -111,6 +111,22 @@ class ConferenceControllerTests {
     }
 
     @Test
+    void searchConferenceByPartialTitle_isExist_ExpectedTrue() throws Exception {
+
+        // ARRANGE
+        Conference conference = new Conference("1", "conferenceName", "conferenceDescription", "conferencePresentateur", null);
+        cr.save(conference);
+
+        // ACT
+        Response response = when().get("/conferences?search=nom==*erence*").then()
+                .statusCode(HttpStatus.SC_OK).extract().response();
+        String jsonAsString = response.asString();
+
+        // ASSERT
+        assertThat(jsonAsString,containsString("conferenceName"));
+    }
+
+    @Test
     void searchConferenceByPresentateur_isExist_ExpectedTrue() throws Exception {
 
         // ARRANGE
