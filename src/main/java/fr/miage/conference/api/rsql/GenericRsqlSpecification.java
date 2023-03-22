@@ -8,13 +8,13 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.util.Collections;
+import java.io.Serializable;
 import java.util.List;
 
 public class GenericRsqlSpecification<T> implements Specification<T> {
 
     private String property;
-    private ComparisonOperator operator;
+    private transient ComparisonOperator operator;
     private List<String> arguments;
 
     public GenericRsqlSpecification(String selector, ComparisonOperator operator, List<String> arguments) {
@@ -26,7 +26,7 @@ public class GenericRsqlSpecification<T> implements Specification<T> {
 
     @Override
     public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-        List<Object> args = castArguments(root);
+        List<? extends Serializable> args = castArguments(root);
         Object argument = args.get(0);
         switch (RsqlSearchOperation.getSimpleOperator(operator)) {
 
@@ -69,11 +69,11 @@ public class GenericRsqlSpecification<T> implements Specification<T> {
         return null;
     }
 
-    private List<Object> castArguments(final Root<T> root) {
+    private List<? extends Serializable> castArguments(final Root<T> root) {
 
         Class<? extends Object> type = root.get(property).getJavaType();
 
-        return Collections.singletonList(arguments.stream().map(arg -> {
+        return arguments.stream().map(arg -> {
             if (type.equals(Integer.class)) {
                 return Integer.parseInt(arg);
             } else if (type.equals(Long.class)) {
@@ -81,7 +81,7 @@ public class GenericRsqlSpecification<T> implements Specification<T> {
             } else {
                 return arg;
             }
-        }).toList());
+        }).toList();
     }
 
     // standard constructor, getter, setter
