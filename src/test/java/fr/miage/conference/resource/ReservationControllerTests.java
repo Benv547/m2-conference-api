@@ -152,7 +152,7 @@ public class ReservationControllerTests {
                 .contentType(ContentType.JSON)
                 .body(this.toJsonString(input)).contentType(ContentType.JSON)
                 .when().post("/conferences/1/sessions/1/reservation/test@test.fr").then()
-                .statusCode(HttpStatus.SC_OK).extract().response();
+                .statusCode(HttpStatus.SC_CREATED).extract().response();
         String jsonAsString = response.asString();
 
         // ASSERT
