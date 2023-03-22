@@ -6,12 +6,15 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Entity
+@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "userId", "sessionId", "conferenceId" }) })
 public class Reservation {
 
     @Id
