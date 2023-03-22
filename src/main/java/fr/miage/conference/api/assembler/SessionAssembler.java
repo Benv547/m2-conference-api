@@ -1,6 +1,7 @@
 package fr.miage.conference.api.assembler;
 
 import fr.miage.conference.api.controller.ConferenceController;
+import fr.miage.conference.api.controller.ReservationController;
 import fr.miage.conference.api.controller.SessionController;
 import fr.miage.conference.session.entity.Session;
 import lombok.SneakyThrows;
@@ -27,6 +28,7 @@ public class SessionAssembler implements RepresentationModelAssembler<Session, E
     public EntityModel<Session> toModel(Session entity) {
         return EntityModel.of(entity,
             linkTo(methodOn(SessionController.class).getSession(entity.getConferenceId(), entity.getId())).withSelfRel(),
+            linkTo(methodOn(ReservationController.class).createReservation(entity.getConferenceId(), entity.getId(), null, null)).withRel("reservation").withTitle("Do a reservation"),
             linkTo(methodOn(SessionController.class).getSessions(entity.getConferenceId())).withRel("sessions").withTitle("Others sessions of the conference")
         );
     }

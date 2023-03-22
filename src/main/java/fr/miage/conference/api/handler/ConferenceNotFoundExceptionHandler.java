@@ -10,7 +10,7 @@ public class ConferenceNotFoundExceptionHandler {
 
     @ExceptionHandler(ConferenceNotFoundException.class)
     public ResponseEntity<Object> handleConstraintViolationException(ConferenceNotFoundException e) {
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(404).body(e.getMessage());
     }
 
 }

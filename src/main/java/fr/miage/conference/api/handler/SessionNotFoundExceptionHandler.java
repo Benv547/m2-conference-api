@@ -10,7 +10,7 @@ public class SessionNotFoundExceptionHandler {
 
     @ExceptionHandler(SessionNotFoundException.class)
     public ResponseEntity<Object> handle(SessionNotFoundException e) {
-        return ResponseEntity.status(404).build();
+        return ResponseEntity.status(404).body(e.getMessage());
     }
 
 }
