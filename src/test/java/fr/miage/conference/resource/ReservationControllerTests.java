@@ -31,7 +31,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.when;
 
@@ -153,7 +152,7 @@ public class ReservationControllerTests {
                 .contentType(ContentType.JSON)
                 .body(this.toJsonString(input)).contentType(ContentType.JSON)
                 .when().post("/conferences/1/sessions/1/reservation/test@test.fr").then()
-                .statusCode(HttpStatus.SC_OK).extract().response();
+                .statusCode(HttpStatus.SC_CREATED).extract().response();
         String jsonAsString = response.asString();
 
         // ASSERT

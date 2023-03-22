@@ -2,7 +2,6 @@ package fr.miage.conference.api.assembler;
 
 import fr.miage.conference.api.controller.ConferenceController;
 import fr.miage.conference.api.controller.SessionController;
-import fr.miage.conference.conference.entity.Conference;
 import fr.miage.conference.session.entity.Session;
 import fr.miage.conference.session.exception.SessionNotFoundException;
 import org.springframework.hateoas.CollectionModel;

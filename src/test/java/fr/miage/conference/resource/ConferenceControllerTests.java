@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.miage.conference.api.dto.ConferenceInput;
 import fr.miage.conference.conference.entity.Conference;
 import fr.miage.conference.conference.resource.ConferenceResource;
-import fr.miage.conference.session.entity.Session;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
@@ -18,11 +17,8 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.List;
-
 import static io.restassured.RestAssured.when;
 import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)

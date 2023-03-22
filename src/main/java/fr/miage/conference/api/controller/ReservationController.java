@@ -3,7 +3,6 @@ package fr.miage.conference.api.controller;
 import fr.miage.conference.api.assembler.ReservationAssembler;
 import fr.miage.conference.api.dto.BankCardInformationInput;
 import fr.miage.conference.api.dto.ReservationInput;
-import fr.miage.conference.bank.BankService;
 import fr.miage.conference.bank.entity.BankCardInformation;
 import fr.miage.conference.reservation.ReservationService;
 import fr.miage.conference.reservation.entity.Reservation;
@@ -21,7 +20,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.ejb.EJB;
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping(value = "/conferences/{conferenceId}/sessions/{sessionId}/reservation", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -80,8 +83,8 @@ public class ReservationController {
         reservation.setNbPlaces(input.getNbPlaces());
         reservation = service.createReservation(reservation);
 
-        return ResponseEntity.ok(assembler.toModel(reservation));
-
+        URI location = linkTo(methodOn(ReservationController.class).getReservation(conferenceId, sessionId, userId)).toUri();
+        return ResponseEntity.created(location).body(assembler.toModel(reservation));
     }
 
     @PostMapping(value = "/{userId}/cancel")

@@ -3,7 +3,6 @@ package fr.miage.conference.api.assembler;
 import fr.miage.conference.api.controller.ConferenceController;
 import fr.miage.conference.api.controller.SessionController;
 import fr.miage.conference.conference.entity.Conference;
-import fr.miage.conference.api.dto.ConferenceInput;
 import lombok.SneakyThrows;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;

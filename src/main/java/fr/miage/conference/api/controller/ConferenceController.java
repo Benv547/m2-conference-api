@@ -2,11 +2,11 @@ package fr.miage.conference.api.controller;
 
 import cz.jirutka.rsql.parser.RSQLParser;
 import cz.jirutka.rsql.parser.ast.Node;
+import fr.miage.conference.api.assembler.ConferenceAssembler;
+import fr.miage.conference.api.dto.ConferenceInput;
 import fr.miage.conference.api.rsql.CustomRsqlVisitor;
 import fr.miage.conference.conference.ConferenceService;
-import fr.miage.conference.api.assembler.ConferenceAssembler;
 import fr.miage.conference.conference.entity.Conference;
-import fr.miage.conference.api.dto.ConferenceInput;
 import fr.miage.conference.conference.exception.ConferenceNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.jpa.domain.Specification;
@@ -74,7 +74,6 @@ public class ConferenceController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<EntityModel<Conference>> updateConference(@PathVariable("id") String id, @RequestBody ConferenceInput conference) throws ConferenceNotFoundException {
         Conference saved = service.updateConference(id, modelMapper.map(conference, Conference.class));
-        URI location = linkTo(ConferenceController.class).slash(saved.getId()).toUri();
         return ResponseEntity.ok(assembler.toModel(saved));
     }
 
