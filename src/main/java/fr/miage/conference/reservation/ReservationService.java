@@ -1,6 +1,5 @@
 package fr.miage.conference.reservation;
 
-import fr.miage.conference.api.dto.BankCardInformationInput;
 import fr.miage.conference.bank.entity.BankCardInformation;
 import fr.miage.conference.reservation.entity.Reservation;
 import fr.miage.conference.reservation.exception.CannotProcessPaymentException;

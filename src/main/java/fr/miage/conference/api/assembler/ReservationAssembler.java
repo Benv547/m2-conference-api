@@ -1,8 +1,6 @@
 package fr.miage.conference.api.assembler;
 
-import fr.miage.conference.api.controller.ConferenceController;
 import fr.miage.conference.api.controller.ReservationController;
-import fr.miage.conference.conference.entity.Conference;
 import fr.miage.conference.reservation.entity.Reservation;
 import fr.miage.conference.reservation.exception.CannotProcessPaymentException;
 import fr.miage.conference.reservation.exception.CannotProcessReservationException;
@@ -10,6 +8,7 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Service;
+
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import java.util.List;

@@ -4,8 +4,6 @@ import fr.miage.conference.conference.entity.Conference;
 import fr.miage.conference.conference.exception.ConferenceNotFoundException;
 import fr.miage.conference.session.entity.Session;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.hateoas.EntityModel;
-import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
