@@ -74,7 +74,6 @@ public class ConferenceController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<EntityModel<Conference>> updateConference(@PathVariable("id") String id, @RequestBody ConferenceInput conference) throws ConferenceNotFoundException {
         Conference saved = service.updateConference(id, modelMapper.map(conference, Conference.class));
-        URI location = linkTo(ConferenceController.class).slash(saved.getId()).toUri();
         return ResponseEntity.ok(assembler.toModel(saved));
     }
 

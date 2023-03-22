@@ -21,7 +21,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.ejb.EJB;
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping(value = "/conferences/{conferenceId}/sessions/{sessionId}/reservation", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -80,8 +84,8 @@ public class ReservationController {
         reservation.setNbPlaces(input.getNbPlaces());
         reservation = service.createReservation(reservation);
 
-        return ResponseEntity.ok(assembler.toModel(reservation));
-
+        URI location = linkTo(methodOn(ReservationController.class).getReservation(conferenceId, sessionId, userId)).toUri();
+        return ResponseEntity.created(location).body(assembler.toModel(reservation));
     }
 
     @PostMapping(value = "/{userId}/cancel")
