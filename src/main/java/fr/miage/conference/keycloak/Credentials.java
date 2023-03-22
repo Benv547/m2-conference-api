@@ -4,6 +4,9 @@ import org.keycloak.representations.idm.CredentialRepresentation;
 
 public class Credentials {
 
+    Credentials() {
+    }
+
     public static CredentialRepresentation createPasswordCredentials(String password) {
         CredentialRepresentation passwordCredentials = new CredentialRepresentation();
         passwordCredentials.setTemporary(false);

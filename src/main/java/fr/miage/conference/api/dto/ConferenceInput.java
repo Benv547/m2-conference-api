@@ -19,5 +19,5 @@ public class ConferenceInput {
     private String description;
     @NotNull
     @NotBlank
-    private String présentateur;
+    private String presentateur;
 }

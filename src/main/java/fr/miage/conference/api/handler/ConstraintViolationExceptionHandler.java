@@ -10,7 +10,7 @@ import javax.validation.ConstraintViolationException;
 public class ConstraintViolationExceptionHandler {
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<?> handleConstraintViolationException(ConstraintViolationException e) {
+    public ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException e) {
         return ResponseEntity.badRequest().build();
     }
 

@@ -16,7 +16,7 @@ import org.springframework.web.context.WebApplicationContext;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class KeycloakControllerTests {
+class KeycloakControllerTests {
 
     @LocalServerPort
     int port;

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class DataIntegrityViolationExceptionHandler {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<?> handleConstraintViolationException(DataIntegrityViolationException e) {
+    public ResponseEntity<Object> handleConstraintViolationException(DataIntegrityViolationException e) {
         return ResponseEntity.badRequest().build();
     }
 

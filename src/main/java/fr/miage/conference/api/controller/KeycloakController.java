@@ -21,7 +21,7 @@ public class KeycloakController {
     KeycloakService service;
 
     @PostMapping
-    public ResponseEntity addUser(@RequestBody @Valid UserInput user){
+    public ResponseEntity<Object> addUser(@RequestBody @Valid UserInput user){
         if (service.createUser(user)) {
             return ResponseEntity.noContent().build();
         }

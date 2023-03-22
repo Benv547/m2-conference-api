@@ -22,7 +22,7 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class ConferenceControllerTests {
+class ConferenceControllerTests {
 
     @Autowired
     ConferenceResource cr;
@@ -118,7 +118,7 @@ public class ConferenceControllerTests {
         cr.save(conference);
 
         // ACT
-        Response response = when().get("/conferences?search=présentateur==conferencePresentateur").then()
+        Response response = when().get("/conferences?search=presentateur==conferencePresentateur").then()
                 .statusCode(HttpStatus.SC_OK).extract().response();
         String jsonAsString = response.asString();
 

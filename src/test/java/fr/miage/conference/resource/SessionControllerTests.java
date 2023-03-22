@@ -27,7 +27,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class SessionControllerTests {
+class SessionControllerTests {
 
     @Autowired
     ConferenceResource cr;

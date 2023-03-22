@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class CannotProcessPaymentExceptionHandler {
 
     @ExceptionHandler(CannotProcessPaymentException.class)
-    public ResponseEntity<?> handleConstraintViolationException(CannotProcessPaymentException e) {
+    public ResponseEntity<Object> handleConstraintViolationException(CannotProcessPaymentException e) {
         return ResponseEntity.badRequest().build();
     }
 

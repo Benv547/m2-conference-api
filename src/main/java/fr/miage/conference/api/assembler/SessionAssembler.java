@@ -3,7 +3,7 @@ package fr.miage.conference.api.assembler;
 import fr.miage.conference.api.controller.ConferenceController;
 import fr.miage.conference.api.controller.SessionController;
 import fr.miage.conference.session.entity.Session;
-import fr.miage.conference.session.exception.SessionNotFoundException;
+import lombok.SneakyThrows;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
@@ -22,16 +22,13 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @Service
 public class SessionAssembler implements RepresentationModelAssembler<Session, EntityModel<Session>> {
 
+    @SneakyThrows
     @Override
     public EntityModel<Session> toModel(Session entity) {
-        try {
-            return EntityModel.of(entity,
-                linkTo(methodOn(SessionController.class).getSession(entity.getConferenceId(), entity.getId())).withSelfRel(),
-                linkTo(methodOn(SessionController.class).getSessions(entity.getConferenceId())).withRel("sessions").withTitle("Others sessions of the conference")
-            );
-        } catch (SessionNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        return EntityModel.of(entity,
+            linkTo(methodOn(SessionController.class).getSession(entity.getConferenceId(), entity.getId())).withSelfRel(),
+            linkTo(methodOn(SessionController.class).getSessions(entity.getConferenceId())).withRel("sessions").withTitle("Others sessions of the conference")
+        );
     }
 
     public CollectionModel<EntityModel<Session>> toCollectionModel(String conferenceId, Iterable<? extends Session> entities) {

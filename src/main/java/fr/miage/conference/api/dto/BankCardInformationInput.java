@@ -21,7 +21,7 @@ public class BankCardInformationInput {
     @NotNull
     @NotBlank
     @Size(min = 7, max = 7)
-    @Pattern(regexp = "[0-9]+/[0-9]+")
+    @Pattern(regexp = "\\d+/\\d+")
     private String cardExpirationDate;
     @NotNull
     @NotBlank
