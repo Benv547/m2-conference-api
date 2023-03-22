@@ -44,7 +44,7 @@ public class SessionServiceBean implements SessionService {
 
     @Override
     public Session getSession(String conferenceId, String id) throws SessionNotFoundException {
-        Session session = resource.getReferenceByIdAndConferenceId(id, conferenceId);
+        Session session = resource.getSessionsByIdAndConferenceId(id, conferenceId);
         if (session == null) {
             throw new SessionNotFoundException("Session with id: " + id + " not found");
         }

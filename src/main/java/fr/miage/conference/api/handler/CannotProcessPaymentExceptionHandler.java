@@ -10,7 +10,7 @@ public class CannotProcessPaymentExceptionHandler {
 
     @ExceptionHandler(CannotProcessPaymentException.class)
     public ResponseEntity<Object> handleConstraintViolationException(CannotProcessPaymentException e) {
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.badRequest().body(e.getMessage());
     }
 
 }

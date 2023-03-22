@@ -57,6 +57,15 @@ class SessionControllerTests {
     }
 
     @Test
+    void getSession_conferenceIdNotExist_ExpectedFalse() throws Exception {
+        // ARRANGE
+
+        // ACT & ASSERT
+        when().get("/conferences/12/sessions/12").then()
+                .statusCode(HttpStatus.SC_NOT_FOUND);
+    }
+
+    @Test
     void getSessions_conferenceIdExist_ExpectedTrue() throws Exception {
         // ARRANGE
         ArrayList<Session> sessions = new ArrayList<>();
