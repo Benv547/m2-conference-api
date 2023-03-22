@@ -89,7 +89,7 @@ public class ReservationController {
 
     @PostMapping(value = "/{userId}/cancel")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<EntityModel<Object>> cancelReservation(@PathVariable String conferenceId, @PathVariable String sessionId, @PathVariable String userId) {
+    public ResponseEntity<EntityModel<Reservation>> cancelReservation(@PathVariable String conferenceId, @PathVariable String sessionId, @PathVariable String userId) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!authentication.getName().equals(userId)) {
@@ -97,7 +97,7 @@ public class ReservationController {
         }
 
         if (service.cancelReservation(conferenceId, sessionId, userId)) {
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.ok(assembler.toModel(service.getReservation(conferenceId, sessionId, userId)));
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -107,7 +107,7 @@ public class ReservationController {
 
     @PostMapping(value = "/{userId}/payment")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<EntityModel<Object>> paymentReservation(@PathVariable String conferenceId, @PathVariable String sessionId, @PathVariable String userId, @RequestBody @Valid BankCardInformationInput cardInformation) throws CannotProcessPaymentException {
+    public ResponseEntity<EntityModel<Reservation>> paymentReservation(@PathVariable String conferenceId, @PathVariable String sessionId, @PathVariable String userId, @RequestBody @Valid BankCardInformationInput cardInformation) throws CannotProcessPaymentException {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!authentication.getName().equals(userId)) {
@@ -115,7 +115,7 @@ public class ReservationController {
         }
 
         if (service.paymentReservation(modelMapper.map(cardInformation, BankCardInformation.class), conferenceId, sessionId, userId)) {
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.ok(assembler.toModel(service.getReservation(conferenceId, sessionId, userId)));
         } else {
             return ResponseEntity.notFound().build();
         }
