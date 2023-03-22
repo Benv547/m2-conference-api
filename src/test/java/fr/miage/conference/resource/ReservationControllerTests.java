@@ -278,7 +278,7 @@ class ReservationControllerTests {
                 .auth().with(SecurityMockMvcRequestPostProcessors.user("test@test.fr").roles("USER"))
                 .contentType(ContentType.JSON)
                 .when().post("/conferences/1/sessions/1/reservation/test@test.fr/cancel")
-                .then().statusCode(HttpStatus.SC_NO_CONTENT);
+                .then().statusCode(HttpStatus.SC_OK);
     }
 
     @Test
@@ -328,7 +328,7 @@ class ReservationControllerTests {
                 .contentType(ContentType.JSON)
                 .body(this.toJsonString(input)).contentType(ContentType.JSON)
                 .when().post("/conferences/1/sessions/1/reservation/test@test.fr/payment")
-                .then().statusCode(HttpStatus.SC_NO_CONTENT);
+                .then().statusCode(HttpStatus.SC_OK);
 
     }
 
