@@ -11,6 +11,7 @@ import org.springframework.jdbc.datasource.AbstractDataSource;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.EnableRetry;
 import org.springframework.retry.annotation.Retryable;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -18,6 +19,7 @@ import java.sql.SQLException;
 
 @SpringBootApplication
 @EnableRetry
+@EnableSwagger2
 public class M2ConferenceApiApplication {
 
     public static void main(String[] args) {

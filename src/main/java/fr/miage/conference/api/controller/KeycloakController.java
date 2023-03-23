@@ -2,6 +2,7 @@ package fr.miage.conference.api.controller;
 
 import fr.miage.conference.api.dto.UserInput;
 import fr.miage.conference.keycloak.KeycloakService;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,7 @@ public class KeycloakController {
     @EJB
     KeycloakService service;
 
+    @ApiOperation(value = "Create a new user.")
     @PostMapping
     public ResponseEntity<Object> addUser(@RequestBody @Valid UserInput user){
         if (service.createUser(user)) {
