@@ -44,12 +44,15 @@ public class ReservationServiceBean implements ReservationService {
     @Override
     public Reservation createReservation(Reservation reservation) throws CannotProcessReservationException {
 
+        Reservation saved;
         try {
             conferenceService.getConference(reservation.getConferenceId());
             var session = sessionService.getSession(reservation.getConferenceId(), reservation.getSessionId());
             if (session.getNbPlacesRestantes() < reservation.getNbPlaces()) {
                 throw new CannotProcessReservationException(ReservationMessageEnum.RESERVATION_IS_FULL.getMessage());
             }
+
+            saved = resource.save(reservation);
 
             session.setNbPlacesRestantes(session.getNbPlacesRestantes() - reservation.getNbPlaces());
             sessionService.updateSession(reservation.getConferenceId(), session);
@@ -58,7 +61,7 @@ public class ReservationServiceBean implements ReservationService {
             throw new CannotProcessReservationException(ReservationMessageEnum.RESERVATION_NOT_FOUND_BY_CONFERENCE_ID.getMessage() + reservation.getConferenceId());
         }
 
-        return resource.save(reservation);
+        return saved;
     }
 
     @Override
