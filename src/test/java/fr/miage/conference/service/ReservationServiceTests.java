@@ -7,6 +7,7 @@ import fr.miage.conference.conference.entity.Conference;
 import fr.miage.conference.conference.exception.ConferenceNotFoundException;
 import fr.miage.conference.reservation.ReservationService;
 import fr.miage.conference.reservation.entity.Reservation;
+import fr.miage.conference.reservation.exception.CannotCancelReservationException;
 import fr.miage.conference.reservation.exception.CannotProcessPaymentException;
 import fr.miage.conference.reservation.exception.CannotProcessReservationException;
 import fr.miage.conference.reservation.resource.ReservationResource;
@@ -19,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.test.context.TestPropertySource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +30,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest()
+@TestPropertySource(
+        locations = "classpath:application-test.properties")
 class ReservationServiceTests {
 
     @MockBean
@@ -288,7 +292,7 @@ class ReservationServiceTests {
 
 
     @Test
-    void cancelReservation_ReservationExistAndNotPayee_ExpectTrue() throws ConferenceNotFoundException, SessionNotFoundException {
+    void cancelReservation_ReservationExistAndNotPayee_ExpectTrue() throws ConferenceNotFoundException, SessionNotFoundException, CannotCancelReservationException {
 
         // ARRANGE
         List<Session> sessions = new ArrayList<>();
@@ -331,7 +335,7 @@ class ReservationServiceTests {
     }
 
     @Test
-    void cancelReservation_ReservationExistAndPayee_ExpectFalse() throws ConferenceNotFoundException, SessionNotFoundException {
+    void cancelReservation_ReservationExistAndPayee_ExpectFalse() throws ConferenceNotFoundException, SessionNotFoundException, CannotCancelReservationException {
 
         // ARRANGE
         List<Session> sessions = new ArrayList<>();
@@ -367,14 +371,11 @@ class ReservationServiceTests {
                 .thenReturn(reservation);
 
         // ACT
-        boolean result = rs.cancelReservation("1", "1", "1");
-
-        // ASSERT
-        assertFalse(result);
+        assertThrows(CannotCancelReservationException.class, () -> rs.cancelReservation("1", "1", "1"));
     }
 
     @Test
-    void cancelReservation_ReservationDoesNotExist_ExpectFalse() throws ConferenceNotFoundException, SessionNotFoundException {
+    void cancelReservation_ReservationDoesNotExist_ExpectFalse() throws ConferenceNotFoundException, SessionNotFoundException, CannotCancelReservationException {
 
         // ARRANGE
         List<Session> sessions = new ArrayList<>();
@@ -401,14 +402,11 @@ class ReservationServiceTests {
                 .thenReturn(null);
 
         // ACT
-        boolean result = rs.cancelReservation("1", "1", "1");
-
-        // ASSERT
-        assertFalse(result);
+        assertThrows(CannotCancelReservationException.class, () -> rs.cancelReservation("1", "1", "1"));
     }
 
     @Test
-    void cancelReservation_ReservationAlreadyCancelled_ExpectFalse() throws ConferenceNotFoundException, SessionNotFoundException {
+    void cancelReservation_ReservationAlreadyCancelled_ExpectFalse() throws ConferenceNotFoundException, SessionNotFoundException, CannotCancelReservationException {
 
         // ARRANGE
         List<Session> sessions = new ArrayList<>();
@@ -444,10 +442,7 @@ class ReservationServiceTests {
                 .thenReturn(reservation);
 
         // ACT
-        boolean result = rs.cancelReservation("1", "1", "1");
-
-        // ASSERT
-        assertFalse(result);
+        assertThrows(CannotCancelReservationException.class, () -> rs.cancelReservation("1", "1", "1"));
     }
 
 

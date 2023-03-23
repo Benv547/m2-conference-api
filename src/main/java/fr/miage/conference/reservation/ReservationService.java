@@ -2,6 +2,7 @@ package fr.miage.conference.reservation;
 
 import fr.miage.conference.bank.entity.BankCardInformation;
 import fr.miage.conference.reservation.entity.Reservation;
+import fr.miage.conference.reservation.exception.CannotCancelReservationException;
 import fr.miage.conference.reservation.exception.CannotProcessPaymentException;
 import fr.miage.conference.reservation.exception.CannotProcessReservationException;
 
@@ -13,7 +14,7 @@ public interface ReservationService {
 
     Reservation createReservation(Reservation reservation) throws CannotProcessReservationException;
 
-    boolean cancelReservation(String conferenceId, String sessionId, String userId);
+    boolean cancelReservation(String conferenceId, String sessionId, String userId) throws CannotCancelReservationException;
 
     boolean paymentReservation(BankCardInformation bankCardInformation, String conferenceId, String sessionId, String userId) throws CannotProcessPaymentException;
 
