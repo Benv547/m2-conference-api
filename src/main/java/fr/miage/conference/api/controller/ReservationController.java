@@ -9,6 +9,7 @@ import fr.miage.conference.reservation.entity.Reservation;
 import fr.miage.conference.reservation.exception.CannotCancelReservationException;
 import fr.miage.conference.reservation.exception.CannotProcessPaymentException;
 import fr.miage.conference.reservation.exception.CannotProcessReservationException;
+import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -39,6 +40,7 @@ public class ReservationController {
 
     private static ModelMapper modelMapper = new ModelMapper();
 
+    @ApiOperation(value = "Get all reservations for a session.")
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CollectionModel<EntityModel<Reservation>>> getReservations(@PathVariable String conferenceId, @PathVariable String sessionId) {
@@ -51,6 +53,7 @@ public class ReservationController {
 
     }
 
+    @ApiOperation(value = "Get a reservation for a session.")
     @GetMapping(value = "/{userId}")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<EntityModel<Reservation>> getReservation(@PathVariable String conferenceId, @PathVariable String sessionId, @PathVariable String userId) {
@@ -68,6 +71,7 @@ public class ReservationController {
 
     }
 
+    @ApiOperation(value = "Create a reservation for a session.")
     @PostMapping(value = "/{userId}")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<EntityModel<Reservation>> createReservation(@PathVariable String conferenceId, @PathVariable String sessionId, @PathVariable String userId, @RequestBody @Valid ReservationInput input) throws CannotProcessReservationException {
@@ -88,6 +92,7 @@ public class ReservationController {
         return ResponseEntity.created(location).body(assembler.toModel(reservation));
     }
 
+    @ApiOperation(value = "Cancel a reservation for a session.")
     @PostMapping(value = "/{userId}/cancel")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<EntityModel<Reservation>> cancelReservation(@PathVariable String conferenceId, @PathVariable String sessionId, @PathVariable String userId) throws CannotCancelReservationException {
@@ -105,7 +110,7 @@ public class ReservationController {
 
     }
 
-
+    @ApiOperation(value = "Pay a reservation for a session.")
     @PostMapping(value = "/{userId}/payment")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<EntityModel<Reservation>> paymentReservation(@PathVariable String conferenceId, @PathVariable String sessionId, @PathVariable String userId, @RequestBody @Valid BankCardInformationInput cardInformation) throws CannotProcessPaymentException {

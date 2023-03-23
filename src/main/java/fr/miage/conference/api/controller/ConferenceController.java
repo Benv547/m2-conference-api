@@ -8,6 +8,7 @@ import fr.miage.conference.api.rsql.CustomRsqlVisitor;
 import fr.miage.conference.conference.ConferenceService;
 import fr.miage.conference.conference.entity.Conference;
 import fr.miage.conference.conference.exception.ConferenceNotFoundException;
+import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.hateoas.CollectionModel;
@@ -38,6 +39,7 @@ public class ConferenceController {
 
     private static ModelMapper modelMapper = new ModelMapper();
 
+    @ApiOperation(value = "Get all conferences with search param.")
     @GetMapping
     public ResponseEntity<CollectionModel<EntityModel<Conference>>> findAllByRsql(@RequestParam(value = "search") String search) {
         try {
@@ -53,6 +55,7 @@ public class ConferenceController {
         }
     }
 
+    @ApiOperation(value = "Get conference by id.")
     @GetMapping(value = "/{id}")
     public ResponseEntity<EntityModel<Conference>> getConference(@PathVariable("id") String id) throws ConferenceNotFoundException {
         return Optional.of(service.getConference(id))
@@ -60,6 +63,7 @@ public class ConferenceController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @ApiOperation(value = "Create a conference (ADMIN only).")
     @PostMapping()
     @Transactional
     @PreAuthorize("hasRole('ADMIN')")
@@ -69,6 +73,7 @@ public class ConferenceController {
         return ResponseEntity.created(location).body(assembler.toModel(saved));
     }
 
+    @ApiOperation(value = "Update a conference (ADMIN only).")
     @PatchMapping(value = "/{id}")
     @Transactional
     @PreAuthorize("hasRole('ADMIN')")
@@ -77,6 +82,7 @@ public class ConferenceController {
         return ResponseEntity.ok(assembler.toModel(saved));
     }
 
+    @ApiOperation(value = "Delete a conference (ADMIN only).")
     @DeleteMapping(value = "/{id}")
     @Transactional
     @PreAuthorize("hasRole('ADMIN')")
