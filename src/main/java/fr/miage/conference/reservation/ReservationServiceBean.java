@@ -5,6 +5,7 @@ import fr.miage.conference.bank.entity.BankCardInformation;
 import fr.miage.conference.conference.ConferenceService;
 import fr.miage.conference.conference.exception.ConferenceNotFoundException;
 import fr.miage.conference.reservation.entity.Reservation;
+import fr.miage.conference.reservation.exception.CannotCancelReservationException;
 import fr.miage.conference.reservation.exception.CannotProcessPaymentException;
 import fr.miage.conference.reservation.exception.CannotProcessReservationException;
 import fr.miage.conference.reservation.resource.ReservationResource;
@@ -65,15 +66,12 @@ public class ReservationServiceBean implements ReservationService {
     }
 
     @Override
-    public boolean cancelReservation(String conferenceId, String sessionId, String userId) {
+    public boolean cancelReservation(String conferenceId, String sessionId, String userId) throws CannotCancelReservationException {
 
         Reservation reservation = resource.findOneBySessionIdAndConferenceIdAndUserId(sessionId, conferenceId, userId);
-        if (reservation == null) {
-            return false;
-        }
 
-        if (reservation.isPayee() || reservation.isAnnulee()) {
-            return false;
+        if ( reservation == null || reservation.isPayee() || reservation.isAnnulee()) {
+            throw new CannotCancelReservationException(ReservationMessageEnum.RESERVATION_IS_LOCKED.getMessage());
         }
 
         try {

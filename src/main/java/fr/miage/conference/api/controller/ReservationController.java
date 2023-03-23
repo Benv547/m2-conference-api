@@ -6,6 +6,7 @@ import fr.miage.conference.api.dto.ReservationInput;
 import fr.miage.conference.bank.entity.BankCardInformation;
 import fr.miage.conference.reservation.ReservationService;
 import fr.miage.conference.reservation.entity.Reservation;
+import fr.miage.conference.reservation.exception.CannotCancelReservationException;
 import fr.miage.conference.reservation.exception.CannotProcessPaymentException;
 import fr.miage.conference.reservation.exception.CannotProcessReservationException;
 import org.modelmapper.ModelMapper;
@@ -89,7 +90,7 @@ public class ReservationController {
 
     @PostMapping(value = "/{userId}/cancel")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<EntityModel<Reservation>> cancelReservation(@PathVariable String conferenceId, @PathVariable String sessionId, @PathVariable String userId) {
+    public ResponseEntity<EntityModel<Reservation>> cancelReservation(@PathVariable String conferenceId, @PathVariable String sessionId, @PathVariable String userId) throws CannotCancelReservationException {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!authentication.getName().equals(userId)) {
